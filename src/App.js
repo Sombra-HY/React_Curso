@@ -44,12 +44,10 @@ class App extends Component{
         <section className="container">
           <div className="box">
             {post.map(px => (
-                <div className="post">
-                  <div key={px.id} className = "box-post">
+                <div key={px.id} className="post box-post" >
                     <h1 > {px.title}</h1>
                     <p > {px.body}</p>
                     <img src={px.urls} alt=""/>
-                  </div>
                 </div>
 
                 )
