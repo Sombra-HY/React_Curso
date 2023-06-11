@@ -6,67 +6,56 @@ import {Component} from "react";
 class App extends Component{
 
   state = {
-    counter: 0
-    ,
-    post: [
-      {
-        id:1,
-        title: "valor 1",
-        body:"copor 1"
-      },
-      {
-        id:2,
-        title: "valor 2",
-        body:"copor 2"
-      }
-    ]
+    post: []
   }
 
   constructor(props) {
     super(props);
   }
 
-  timeOutUpdate = null;
-
-  // atualiza ao componente mudar (Ciclo)
-  componentDidUpdate(){
-    this.changeCounter();
-  }
-
-  //modifica o estado atual
-  changeCounter = () =>{
-    const {post, counter} = this.state;
-
-    this.timeOutUpdate = setTimeout(()=>{
-      this.setState({counter: counter+1, post: post});
-    },50);
-  }
-
-  //ao carregar a pagina muda componente
   componentDidMount() {
-    this.changeCounter();
+    this.getAPI();
+
   }
 
-  // desmontando o componente
-  componentWillUnmount() {
-    clearTimeout(this.timeOutUpdate)
+  getAPI = async ()=> {
+    const html = fetch("https://jsonplaceholder.typicode.com/posts");
+    const images = fetch("https://jsonplaceholder.typicode.com/photos");
+
+    const [content, phtos] = await Promise.all([html,images]);
+    const postJsonh = await content.json();
+    const postJsoni = await phtos.json();
+
+    const postJson = postJsonh.map((post, index)=>{
+      return {...post,urls:postJsoni[index].url}
+    })
+
+    console.log(postJson);
+
+    this.setState({post: postJson});
+
   }
 
 
   render() {
-    const {post,counter} = this.state;
+    const {post} = this.state;
 
     return (
-      <div className="App">
-        <h1> {counter} </h1>
-        {post.map(px => (
-            <div key={px.id}>
-              <h1 > {px.title}</h1>
-              <p > {px.body}</p>
-            </div>
-            )
-        )}
-      </div>
+        <section className="container">
+          <div className="box">
+            {post.map(px => (
+                <div className="post">
+                  <div key={px.id} className = "box-post">
+                    <h1 > {px.title}</h1>
+                    <p > {px.body}</p>
+                    <img src={px.urls} alt=""/>
+                  </div>
+                </div>
+
+                )
+            )}
+          </div>
+        </section>
     );
   }
 }
