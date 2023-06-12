@@ -1,0 +1,18 @@
+.buttona{
+    width: 100%;
+    color: white;
+    background: rgba(4, 4, 70, 0.32);
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.buttona:disabled{
+    width: 100%;
+    color: #0e0d0d;
+    background: rgba(210, 210, 241, 0.32);
+    padding: 5px 15px;
+    cursor: not-allowed;
+    border-radius: 10px;
+}
+
+
