@@ -1,5 +1,6 @@
 import './App.css';
 import {Component} from "react";
+import {Postcard} from "./components/Postcard";
 
 // https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
@@ -30,7 +31,6 @@ class App extends Component{
       return {...post,urls:postJsoni[index].url}
     })
 
-    console.log(postJson);
 
     this.setState({post: postJson});
 
@@ -42,16 +42,10 @@ class App extends Component{
 
     return (
         <section className="container">
-          <div className="box">
-            {post.map(px => (
-                <div key={px.id} className="post box-post" >
-                    <h1 > {px.title}</h1>
-                    <p > {px.body}</p>
-                    <img src={px.urls} alt=""/>
-                </div>
+          <div className="box">{
+              post.map(px => (<Postcard px={px}/>))
+            }
 
-                )
-            )}
           </div>
         </section>
     );
