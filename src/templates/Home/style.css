@@ -2,7 +2,12 @@
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
-    background: #eeee;
+    background: rgba(245, 245, 245, 0.93);
     padding: 30px;
 }
 
+.search-Container, search-Container h1{
+    margin-bottom: 20px;
+
+
+}
