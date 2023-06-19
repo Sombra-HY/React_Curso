@@ -1,29 +1,53 @@
 import P from 'prop-types';
 import './App.css';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
-const Button = React.memo(function Button({ sumCountera }) {
-    return <button onClick={() => sumCountera()}>+</button>;
-});
+const Post = ({ post }) => {
+    return (
+        <div id={post.id} className="posts">
+            <h3>{post.title}</h3>
+            <p> {post.body} </p>
+        </div>
+    );
+};
 
-Button.propTypes = {
-    sumCountera: P.func,
+Post.propTypes = {
+    post: P.shape({
+        id: P.number,
+        title: P.string,
+        body: P.string,
+    }),
 };
 
 function App() {
-    const [counter, setCounter] = useState(0);
+    const [posts, setPost] = useState([]);
+    const [value, setValue] = useState('');
 
-    const sumCounter = useCallback(() => {
-        setCounter((c) => c + 1);
+    // const [allpost, setAllPost] = useState([]);
+    useEffect(() => {
+        fetch('https://jsonplaceholder.typicode.com/posts')
+            .then((r) => r.json())
+            .then((r) => setPost(r));
     }, []);
 
-    console.log('pai');
     return (
         <div className="App">
-            <p>teste 3</p>
-            <h1>Contador:{counter}</h1>
-            <Button sumCountera={sumCounter} />
+            <input
+                type="search"
+                className="search"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
+            <div className="allpost">
+                {useMemo(() => {
+                    return posts.map((post) => (
+                        <Post key={post.id} post={post} />
+                    ));
+                }, [posts])}
+            </div>
         </div>
     );
 }
 export default App;
+
+//useMemo guarda algum(s) componente(s) na memória
